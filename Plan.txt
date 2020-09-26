@@ -49,7 +49,6 @@ Features to Implement:
     Use Java's inbuilt function to measure elapsed time
     
 
-
   - Calculating WPM
     Could count all of the words in the input file and count how many letters they consist of 
       Then use 1 letter as the base unit of score?
@@ -85,3 +84,4 @@ Features to Implement:
     Strcmp, if its wrong end the game.
 5. 
 
+ File reader and report card
