@@ -17,14 +17,9 @@ public class Paragraph
     title = "RandomTitle";
   }
 
-  public LinkedList<String> getBlock()
+  public LinkedList getBlock()
   {
     return block;
-  }
-  
-  public int getBlockSize()
-  {
-    return block.size();
   }
 
   public void add(String sentence)
@@ -32,7 +27,6 @@ public class Paragraph
     block.add(sentence);
   }
 
-  // Set the title
   public void setTitle(String s) {
     title = s;
   }
@@ -42,16 +36,14 @@ public class Paragraph
     return title;
   }
 
-  // Method for converting 
-  public String toString()
+  public void printAllSentences()
   {
-    StringBuilder bobTheBuilder = new StringBuilder(block.size());
+    int i = 1;
 
     for (String sentence : block)
     {
-      bobTheBuilder.append(sentence + "\n");
+      System.out.println(i++ + ": " + sentence);
     }
-    return bobTheBuilder.toString();
   }
 }
 

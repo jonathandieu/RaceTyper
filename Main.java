@@ -5,15 +5,13 @@ public class Main
 {
   public static void main(String[] args) 
   {
-    Scanner sc = new Scanner(System.in);
-    Menu menu = new Menu(sc);
+    menu = new Menu();
     
-    menu.menuGateway();
-    System.out.println("See you next time! :D\n");
-   //  System.out.println("Is this thing on?");
+    menu.startMenu();
+
+
+    System.out.println("Is this thing on?");
   }
 }
-
-
 
 

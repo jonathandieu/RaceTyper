@@ -1,87 +1,116 @@
-import java.io.*;
+import java.io.FileInputStream;
 import java.util.*;
 
-public class Menu 
+public class Menu
 {
 
   // Menu variables
   private ParagraphManager paraManager;
-  public static Scanner sc;
+  private Scanner sc;
   private int timeLimit = 20;
+  private String filename;
+  
 
   // Constructor to initialize the scanner and the paraManager
-  public Menu(Scanner scanner)
+  public Menu()
   {
-    sc = scanner;
-    paraManager = new ParagraphManager(scanner);
+    sc = new Scanner(System.in);
+    paraManager = new ParagraphManager(sc);
   } 
-  
-  public void menuGateway()
-  {
-    if (!splashOptions())
-    {
-      return;
-    }
-    startMenu();    
-  }
 
-  // Initial options menu after moving past the splash screen
-  public void startMenu()
-  {   
-    while (true)
-    {
-      createHeader("1: Start a game.\n2: Paragraph editor.\n3: Exit");
-      String choice = sc.next();
-      switch (choice)
-      {
-        case "1":
-          initGame();        
-          break;
-        case "2":
-          paraManager.paragraphMenu();
-          break;
-
-        case "3":
-          System.out.println("Thanks for playing!\n");
-          System.exit(0);
-        
-        default: System.out.println("That's not a valid choice!");
-      }
-    }
+  // Take in input from a text file with paragraph in it as specified by the user
+  // public String fileReader() 
+  // {
+  //   System.out.println("Please enter the name of the file that you would like to use as input?");
+    
+  //   filename = sc.nextLine();
+    
+    // Takes file specified by the user and
+    // Scanner inputscanner = new Scanner(new File(filename)); 
+    // while (inputscanner.hasNextLine())
+    // {
+    //   String line = inputscanner.nextLine();
+    // }
 
     
+      
+ // }
+  // Wasn't working for some reason
+    /*
+  { FileInputStream fstream = new FileInputStream("");
+    File inputfile = new File("input.txt");
+
+    try (BufferedReader br = new BufferedReader(new FileReader(inputfile)));
+      for(string line; (line = br.readLine()) != null; )
+    {
+      System.out.println(line);
+    }
+    
+    fstream.close();
+  }
+  */
+  
+  // Initial options menu after a paragraph is created or chosen.
+  public void splashOptions()
+  {
+    createHeader("1: Start a game.\n2: Paragraph editor.\n3: Exit game");
+    
+    int choice = sc.nextInt();
+    switch(choice)
+    {
+      case 1:
+        initGame();
+        break;
+      
+      case 2:
+        paraManager.paragraphMenu();
+        break;
+
+      case 3:
+        System.out.println("Thanks for playing!\n");
+        System.exit(0);
+    }
   }   
   
   // Function that asks the user to choose a paragraph they wish to practice, displays titles,
   // and they choose the index assosciated with that specific paragraph. Starts the game.
   public void initGame() 
   {
-    if (paraManager.getSize() <= 0)
-    {
-      System.out.println("No paragraphs in storage!\n");
-      return;
-    }
-
     System.out.println("Please choose a paragraph to practice:");
     paraManager.titleList();
-    int pgraph_num = Integer.parseInt(sc.next());
-    sc.skip("\n");
+    int pgraph_num = sc.nextInt();
+
     System.out.println("Please choose a difficulty (1-5):");
-    int difficulty = Integer.parseInt(sc.next());
+    int difficulty = sc.nextInt();
 
     startGame(pgraph_num, difficulty);
   }
 
+  // Function to output a list of all titles along with the index asssociated with that specific paragraph.
+  // public void titleList()
+  // {
+  //   for (int i = 0; i < paraManager.size(); i++) 
+  //   {
+  //     System.out.println(i + " " + "|" + " " + paraManager.get(i).getTitle());
+  //   }
+  //   System.out.println();
+  // }
+
+
   // Initial start menu prompting the user if they would like to create a new paragaph or use
   // an existing one(implemented later).
-  public boolean splashOptions() {
-    Logo();
-    createHeader("Welcome to RaceTyper! (Patent pending)\nCreated by John Pham, Jonathan Dieu, and Ryan Black");
+  public void startMenu() {
+    createHeader("Welcome to RacerType!\nCreated by Jonathan Dieu, John Pham, and Ryan Black");
 
-    System.out.println("Continue (Y/N)?");
+    System.out.println("Would you like to create a new paragraph to practice on? Y/N");
     String res = sc.next();
   
-    return res.equals("Y");
+    if (res != "Y")
+       splashOptions();
+    
+    paraManager.enterParagraph();
+    splashOptions();
+    
   }
 
   // // Function that creates our beautiful header.
@@ -91,6 +120,59 @@ public class Menu
     System.out.println(header);
     System.out.println("-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-==-=-=-=-=-=-=-=-=-\n\n");
   }
+  // // The paragraph editor menu :D
+  // public void paragraphEditorMenu()
+  // {
+  //   createHeader("Paragraph Editor\nHere's what you've saved so far:");
+  //   titleList(); 
+  //   createHeader("1: Start a game.\n2: Paragraph editor.\n3: Exit game")
+  // }
+  
+  
+ 
+//  public void enterParagraph()
+//   {
+//     String input;
+//     Paragraph paragraph = new Paragraph();
+
+//     System.out.println("Please enter a title for your paragraph:");
+//     paragraph.setTitle(sc.next);
+
+//     System.out.println("NOTE: Enter @@ when you finish typing your paragraph!");
+//     System.out.println("Please enter your paragraph:");
+  
+//     while (input != "@@") 
+//     {
+//         input = sc.next();
+//         paragraph.add(input);
+//     }
+  
+//     blockLoader.add(paragraph);
+//  }
+
+//  public void addToParagraph(int paragraph)
+//  {
+//    while (true)
+//    {
+//      System.out.println("Enter in a sentence to add; @@ to leave");
+//      String input = sc.nextLine();
+
+//      if (input.isEmpty())
+//      {
+//        continue;
+//      }
+//      if (input.equals("@@"))
+//      {
+//        return;
+//      }
+//      blockLoader.get(paragraph).add(input);     
+//    }
+
+//  }
+  // Method that prints out your options
+  // And helper methods for each option
+  
+  
 
   // Functionality for the game
   // Times users and compares their input to what is being held in blockLoader
@@ -101,31 +183,21 @@ public class Menu
     
     // string = 
     // System.out.println(string);
-    LinkedList<String> temp = paraManager.get(paragraph).getBlock();
-    System.out.println("START!\n");
-    for (String sentence : temp)
+    LinkedList temp = paraManager.get(paragraph).getBlock();
+    System.out.println("")
+    for (int i = 0; i < temp.size(); i++)
     {
-      
-      System.out.println(sentence);
-
       final long start = System.nanoTime();
-      
       String userInput = sc.nextLine();
-      if (userInput.isEmpty())
-      {
-        System.out.println("BOOOOOO");
-      }
-      
       final long stop = System.nanoTime();
-      
+
       double totalTime = (stop - start) / 1e9;
 
-      if (totalTime >= timeLimit - difficulty || !userInput.equals(sentence))
-        typingError(sentence, userInput, totalTime);
+      if (totalTime >= timeLimit * difficulty || !userInput.equals(temp.get(i)))
+        typingError(temp.get(i), userInput, timeLimit);
+      
       else if (++count % 3 == 0)
         typingSuccess();
-
-      System.out.println();
     }
 
     // IMPLEMENT LATER
@@ -140,20 +212,14 @@ public class Menu
     System.out.println("Oops! Looks like you couldn't finish correctly or on time, let's try this again");
     System.out.println("Try typing this sentence again:\n" + sentence + "\nTake your time, you can do it!");
 
-    
-    while (true)
+    String input = sc.nextLine();
+    while (!input.equals(sentence))
     {
-      String input = sc.nextLine();
-      // sc.skip("\n");
-      if (!input.equals(sentence))
-      {
-        System.out.println("Try again. Take your time, it's okay to slow down a bit");
-      }
+      System.out.println("Try again. Take your time, it's okay to slow down a bit");
     }
   }
 
   // A small congratulatory message when the user types 3 sentences correctly
-  //make a random to select from 
   public void typingSuccess()
   {
     System.out.println("LET'S GOOOOOOOOO!!!\nPOGCHAMP");
@@ -165,41 +231,5 @@ public class Menu
   //   {timer = new Timer(); timer.schedule(new DisplayCountdown(), 1000);} // Last parameter is the interval in which the coundown is displayed (frequency wise)
 
   //  class DisplayCountdown extends TimerTask {int seconds = timeLimit;} // 2 errors
-
-// Printing out a report card 
-  public void raceReport()
-  {
-    System.out.println("Congratulations on getting through the challenge!");
-  }
-
-// death
-  public void Logo()
-  {
-      System.out.println("     ____                ______");
-      System.out.printf("    / __ ");
-      System.out.printf("\\");
-      System.out.println("____ _________/_  __/_  ______  ___  _____");
-      System.out.printf("   / /_/ / __ `/ ___/ _ ");
-      System.out.printf("\\");
-      System.out.printf("/ / / / / / __ ");
-      System.out.printf("\\");
-      System.out.printf("/ _ ");
-      System.out.printf("\\");
-      System.out.println("/ ___/");
-
-      System.out.println("  / _, _/ /_/ / /__/  __/ / / /_/ / /_/ /  __/ /    ");
-    System.out.printf(" /_/ |_|");
-    System.out.printf("\\");
-    System.out.printf("__,_/");
-    System.out.printf("\\");
-    System.out.printf("___/");
-    System.out.printf("\\");
-    System.out.printf("___/_/  ");
-    System.out.printf("\\");
-    System.out.printf("__, / .___/");
-    System.out.printf("\\");
-    System.out.println("___/_/     ");
-    System.out.println("                           /____/_/\n");     
-  }
-
 }
+  
