@@ -100,8 +100,7 @@ public class Menu
     double overallTime = 0;
     long start = 0;
     long stop = 0;
-    // string = 
-    // System.out.println(string);
+    
     LinkedList<String> temp = paraManager.get(paragraph).getBlock();
     System.out.println("START!\n");
     for (String sentence : temp)
@@ -127,13 +126,14 @@ public class Menu
       }      
       
       double totalTime = (stop - start) / 1e9;
+      overallTime += totalTime;
 
       System.out.println();
 
       if (totalTime >= timeLimit - difficulty || !userInput.equals(sentence))
         typingError(sentence, userInput, totalTime);
       else if (++count % 3 == 0)
-        typingSuccess();
+        typingSuccess(overallTime);
 
       System.out.println();
     }
@@ -169,9 +169,11 @@ public class Menu
 
   // A small congratulatory message when the user types 3 sentences correctly
   //make a random to select from 
-  public void typingSuccess()
+  public void typingSuccess(double overallTime)
   {
     System.out.println("LET'S GOOOOOOOOO!!!\nPOGCHAMP");
+
+    System.out.println("You got a score of: " + (overallTime*1000));
   }
 
   // public static void countdown()
